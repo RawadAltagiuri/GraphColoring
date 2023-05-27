@@ -33,7 +33,7 @@ int main(){
     int size = 0;
     Node* graph = parse("Instance.col", size); //the file that contains our instance
 
-    int colors = 0;
+    int colors = 0;//this will be the number of colors we needed to color the graph
     for(int i = 1; i < size; i++){ // coloring the graphs
         solution(graph[i], colors);
     }
