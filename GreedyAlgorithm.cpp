@@ -1,9 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <unordered_set>
+#include <chrono>
 #include "NODECLASS.H"
 #include "Parser.h"
 using namespace std;
+
+auto start = chrono::steady_clock::now();//used to measure time
+
 
 void solution(Node& graph, int& colors){
     if(graph.color!=0) return; //if the graph has been colored return, stopping condition.
@@ -30,6 +34,7 @@ void solution(Node& graph, int& colors){
 }
 
 int main(){
+    
     int size = 0;
     Node* graph = parse("Instance.col", size); //the file that contains our instance
 
@@ -44,5 +49,9 @@ int main(){
     }
     delete[] graph;
     cout << colors;
+
+    auto end = chrono::steady_clock::now(); //used to measure time
+    auto diff = end-start;
+    cout << chrono::duration<double, milli>(diff).count() << " ms" << endl;
 }
 
