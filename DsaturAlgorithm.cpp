@@ -24,8 +24,8 @@ void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
             startVertex = i;
         }
     }
-    if(startVertex!=0)
-        color[startVertex] = 1;
+
+    color[startVertex] = 1;
 
     // Iterate through remaining vertices
     for (int i = 1; i < numVertices; i++)
@@ -75,10 +75,10 @@ void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
         while (usedColors.find(chosenColor) != usedColors.end())
             chosenColor++;
         if(chosenColor > colors) colors = chosenColor;
-        if(vertex!=0 )color[vertex] = chosenColor;
+        color[vertex] = chosenColor;
 
         // Update saturation degree for the adjacent vertices
-        for (int j = 1; j < numVertices; j++)
+        for (int j = 0; j < numVertices; j++)
         {
             if (graph[vertex][j] && color[j] == -1)
                 saturationDegree[j]++;
@@ -108,8 +108,10 @@ vector<vector<int>> turnToMatrix(Node* graph, int size){
 
 int main()
 {
-    int size = 0;
-    Node* actualGraph = parse("Instance.col", size);
+    int size = 2;
+    Node* actualGraph = new Node[2];//parse("Instance.col", size);
+    actualGraph[0].adj = {&actualGraph[1]};
+    actualGraph[1].adj = {&actualGraph[0]};
     vector<vector<int>>graph = turnToMatrix(actualGraph, size);
     int numVertices = graph.size();
     int colors = 0;
