@@ -5,9 +5,11 @@
 using namespace std;
 class Node{
     public:
+        int id;
         int color;
         vector<Node*>adj;
         Node(){
+            this->id = 0;
             this->color=0;
         }
         void add(int, int);

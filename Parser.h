@@ -56,6 +56,7 @@ Node* parse(string fname, int& size) {
         for (int v : adjacencyList[u]) {
             graph[u].adj.push_back(&graph[v]); //connect the adjacent.
         }
+        graph[u].id = u;
     }
     size = adjacencyList.size();//we will pass the size back to know how many we will color
     return graph;

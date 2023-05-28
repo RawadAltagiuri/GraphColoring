@@ -2,11 +2,14 @@
 #include <vector>
 #include <unordered_set>
 #include <algorithm>
+#include "NODECLASS.H"
+#include "Parser.h"
 
 using namespace std;
 
 // Function to perform graph coloring using DSatur algorithm
-void colorGraph(vector<vector<int>>& graph, int numVertices)
+// Function to perform graph coloring using DSatur algorithm
+void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
 {
     vector<int> saturationDegree(numVertices, 0);
     vector<int> color(numVertices, -1);
@@ -21,7 +24,8 @@ void colorGraph(vector<vector<int>>& graph, int numVertices)
             startVertex = i;
         }
     }
-    color[startVertex] = 1;
+    if(startVertex!=0)
+        color[startVertex] = 1;
 
     // Iterate through remaining vertices
     for (int i = 1; i < numVertices; i++)
@@ -57,7 +61,6 @@ void colorGraph(vector<vector<int>>& graph, int numVertices)
                 vertex = j;
             }
         }
-
         // Assign the lowest possible color to the selected vertex
         unordered_set<int> usedColors;
 
@@ -71,11 +74,11 @@ void colorGraph(vector<vector<int>>& graph, int numVertices)
 
         while (usedColors.find(chosenColor) != usedColors.end())
             chosenColor++;
-
-        color[vertex] = chosenColor;
+        if(chosenColor > colors) colors = chosenColor;
+        if(vertex!=0 )color[vertex] = chosenColor;
 
         // Update saturation degree for the adjacent vertices
-        for (int j = 0; j < numVertices; j++)
+        for (int j = 1; j < numVertices; j++)
         {
             if (graph[vertex][j] && color[j] == -1)
                 saturationDegree[j]++;
@@ -90,23 +93,26 @@ void colorGraph(vector<vector<int>>& graph, int numVertices)
     }
 }
 
+vector<vector<int>> turnToMatrix(Node* graph, int size){
+    vector<vector<int>>vec(size, vector<int>(size, 0));
+    Node* temp = graph;
+    for(int i = 0; i < vec.size(); i++){
+        for(Node* n : temp->adj){
+            vec[i][n->id]=1;
+        }
+        temp++;
+    }
+    return vec;
+}
+
 
 int main()
 {
-    // Example graph
-    vector<vector<int>> graph = {
-        {0, 1, 1, 0, 0, 1},
-        {1, 0, 1, 1, 0, 0},
-        {1, 1, 0, 1, 0, 1},
-        {0, 1, 1, 0, 1, 0},
-        {0, 0, 0, 1, 0, 1},
-        {1, 0, 1, 0, 1, 0}
-    };
-
-
+    int size = 0;
+    Node* actualGraph = parse("Instance.col", size);
+    vector<vector<int>>graph = turnToMatrix(actualGraph, size);
     int numVertices = graph.size();
-
-    colorGraph(graph, numVertices);
-
-    return 0;
+    int colors = 0;
+    colorGraph(graph, numVertices, colors);
+    cout << colors;
 }
