@@ -17,7 +17,9 @@ The purpose of this repository is for me to have fun doing different implementat
 **Instance.col:** This file provides the attributes of a specific graph (DSJC250.5) in the format specified in the file. It includes information about the vertices and edges of the graph.
 
 # Usage
+
 To use the algorithms and files in this repository, follow these steps:
+
 **1-** Clone the repository to your local machine using the following command:
  git clone https://github.com/GraphColoring/GraphColoring.git
  
