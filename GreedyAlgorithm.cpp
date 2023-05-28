@@ -48,7 +48,7 @@ int main(){
         cout << "Node " << i << ": " << graph[i].color << endl;
     }
     delete[] graph;
-    cout << colors;
+    cout << "The number of colors used: " << colors << endl;
 
     auto end = chrono::steady_clock::now(); //used to measure time
     auto diff = end-start;
