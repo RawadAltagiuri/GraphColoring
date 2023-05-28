@@ -19,7 +19,8 @@ The purpose of this repository is for me to have fun doing different implementat
 # Usage
 To use the algorithms and files in this repository, follow these steps:
 **1-** Clone the repository to your local machine using the following command:
-      git clone https://github.com/GraphColoring/GraphColoring.git
+ git clone https://github.com/GraphColoring/GraphColoring.git
+ 
 **2-** Run the desired algorithm on a graph by executing the corresponding file. For example, to run the GreedyAlgorithm, execute the GreedyAlgorithm file.
 
 # Credits
