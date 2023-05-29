@@ -108,7 +108,7 @@ vector<vector<int>> turnToMatrix(Node* graph, int size){
 int main()
 {
     int size = 0;
-    Node* actualGraph = parse("miles750.col", size);
+    Node* actualGraph = parse("dsjc1000.9.col", size);
     vector<vector<int>>graph = turnToMatrix(actualGraph, size);
     int numVertices = graph.size();
     int colors = 0;
