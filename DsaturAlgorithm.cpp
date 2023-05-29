@@ -8,7 +8,6 @@
 using namespace std;
 
 // Function to perform graph coloring using DSatur algorithm
-// Function to perform graph coloring using DSatur algorithm
 void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
 {
     vector<int> saturationDegree(numVertices, 0);
@@ -24,21 +23,21 @@ void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
             startVertex = i;
         }
     }
+    if(startVertex!=0)
+        color[startVertex] = 1;
 
-    color[startVertex] = 1;
-
-    // Iterate through remaining vertices
+    
     for (int i = 1; i < numVertices; i++)
     {
-        // Initialize saturation degree for each vertex
-        saturationDegree[i] = 0;
+        // // Initialize saturation degree for each vertex
+        // saturationDegree[i] = 0;
 
-        // Maintain a set of colors used by adjacent vertices
+        // We will use this to check the colors of each adjacent vertex of the current [i] vertex
         unordered_set<int> usedColors;
 
         // Calculate saturation degree for current vertex
         for (int j = 0; j < numVertices; j++)
-        {
+        { 
             if (graph[i][j] && color[j] != -1)
                 usedColors.insert(color[j]);
         }
@@ -75,10 +74,10 @@ void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
         while (usedColors.find(chosenColor) != usedColors.end())
             chosenColor++;
         if(chosenColor > colors) colors = chosenColor;
-        color[vertex] = chosenColor;
+        if(vertex!=0 )color[vertex] = chosenColor;
 
         // Update saturation degree for the adjacent vertices
-        for (int j = 0; j < numVertices; j++)
+        for (int j = 1; j < numVertices; j++)
         {
             if (graph[vertex][j] && color[j] == -1)
                 saturationDegree[j]++;
@@ -86,10 +85,10 @@ void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
     }
 
     // Print the assigned colors
-    cout << "Vertex\tColor\n";
+    std::cout << "Vertex\tColor\n";
     for (int i = 0; i < numVertices; i++)
     {
-        cout << i << "\t" << color[i] << "\n";
+        std::cout << i << "\t" << color[i] << "\n";
     }
 }
 
@@ -108,13 +107,11 @@ vector<vector<int>> turnToMatrix(Node* graph, int size){
 
 int main()
 {
-    int size = 2;
-    Node* actualGraph = new Node[2];//parse("Instance.col", size);
-    actualGraph[0].adj = {&actualGraph[1]};
-    actualGraph[1].adj = {&actualGraph[0]};
+    int size = 0;
+    Node* actualGraph = parse("miles750.col", size);
     vector<vector<int>>graph = turnToMatrix(actualGraph, size);
     int numVertices = graph.size();
     int colors = 0;
     colorGraph(graph, numVertices, colors);
-    cout << colors;
+    std::cout << colors;
 }
