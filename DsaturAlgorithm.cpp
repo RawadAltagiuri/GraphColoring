@@ -4,9 +4,8 @@
 #include <algorithm>
 #include "NODECLASS.H"
 #include "Parser.h"
-
+#include <chrono>
 using namespace std;
-
 // Function to perform graph coloring using DSatur algorithm
 void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
 {
@@ -92,7 +91,7 @@ void colorGraph(vector<vector<int>>& graph, int numVertices, int &colors)
     }
 }
 
-vector<vector<int>> turnToMatrix(Node* graph, int size){
+vector<vector<int>> turnToMatrix(Node* graph, int size){//turns the graph into a matrix
     vector<vector<int>>vec(size, vector<int>(size, 0));
     Node* temp = graph;
     for(int i = 0; i < vec.size(); i++){
@@ -108,10 +107,14 @@ vector<vector<int>> turnToMatrix(Node* graph, int size){
 int main()
 {
     int size = 0;
-    Node* actualGraph = parse("dsjc1000.9.col", size);
+    Node* actualGraph = parse("homer.col", size);
     vector<vector<int>>graph = turnToMatrix(actualGraph, size);
     int numVertices = graph.size();
     int colors = 0;
+    auto start = chrono::steady_clock::now();
     colorGraph(graph, numVertices, colors);
-    std::cout << colors;
+    auto end = chrono::steady_clock::now(); //used to measure time
+    auto diff = end-start;
+    cout << chrono::duration<double, milli>(diff).count() << " ms" << endl;
+    std::cout << colors << endl;
 }

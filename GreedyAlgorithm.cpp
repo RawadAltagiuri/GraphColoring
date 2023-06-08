@@ -6,9 +6,9 @@
 #include "Parser.h"
 #include <chrono>
 using namespace std;
-auto start = chrono::steady_clock::now();
 
-vector<Node*> HighestDegVector(Node& graph){
+
+vector<Node*> HighestDegVector(Node& graph){//this function orders the adjacent nodes from highest degree to smallest
 
     priority_queue<pair<int, Node*>>pq;
 
@@ -26,7 +26,7 @@ vector<Node*> HighestDegVector(Node& graph){
     return returnal;
 }
 
-void solution(Node& graph, int& colors){
+void solution(Node& graph, int& colors){//this function colors the graph
     if(graph.color!=-1) return; //if the graph has been colored return, stopping condition.
     unordered_set<int>set;
 
@@ -45,14 +45,14 @@ void solution(Node& graph, int& colors){
 
     graph.color = color; //set the graph color
 
-    // graph.adj = HighestDegVector(graph); this ordered the adjacent nodes from highest degree to smallest
+    graph.adj = HighestDegVector(graph);// this ordered the adjacent nodes from highest degree to smallest
     
     for(Node* i : graph.adj){
         solution(*i, colors); //visit its adjacent graphs.
     }
 }
 
-int HighestDeg(Node* graph, int size){
+int HighestDeg(Node* graph, int size){//this function returns the vertex with the highest degree
     int s = 1;
     for(int i = 1; i < size; i++){
         if(graph[i].adj.size() > graph[s].adj.size()){
@@ -65,12 +65,14 @@ int HighestDeg(Node* graph, int size){
 int main(){
      
     int size = 0;
-    Node* graph = parse("miles750.col", size); //the file that contains our instance
-    // int sDeg = HighestDeg(graph, size); //s degree is the vertex with the smallest degree
+    Node* graph = parse("homer.col", size); //the file that contains our instance
+    int hDeg = HighestDeg(graph, size); //s degree is the vertex with the smallest degree
     int colors = 0;//this will be the number of colors we needed to color the graph
-    
-    solution(graph[1], colors);
-    
+    auto start = chrono::steady_clock::now();
+    solution(graph[hDeg], colors);
+    auto end = chrono::steady_clock::now(); //used to measure time
+    auto diff = end-start;
+    cout << chrono::duration<double, milli>(diff).count() << " ms" << endl;
 
     cout << "Colors assigned to nodes:" << endl;
     for (int i = 1; i < size; i++) {
@@ -78,8 +80,5 @@ int main(){
     }
     delete[] graph;
     cout << colors << endl;
-    auto end = chrono::steady_clock::now(); //used to measure time
-    auto diff = end-start;
-    cout << chrono::duration<double, milli>(diff).count() << " ms" << endl;
 }
 
